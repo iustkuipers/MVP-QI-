@@ -8,25 +8,39 @@ class PositionInput(BaseModel):
 
 
 class BacktestRequest(BaseModel):
+    # --- Core parameters ---
     start_date: str
     end_date: str
     initial_cash: float = Field(..., gt=0)
 
     positions: List[PositionInput]
 
+    # --- Risk-free assumptions ---
     risk_free_rate: float = Field(..., ge=-0.5, le=1.0)
-    benchmark_ticker: Optional[str] = None
-    rebalance: Literal["none", "monthly", "daily"] = "none"
+    risk_free_compounding: Literal[
+        "none",
+        "daily",
+        "monthly",
+        "quarterly",
+        "yearly",
+        "continuous",
+    ] = "none"
 
-    # 👇 NEW
+    # --- Benchmark & execution ---
+    benchmark_ticker: Optional[str] = None
+    rebalance: Literal["none"] = "none"
+
+    # --- Execution options ---
     data_provider: Literal["mock", "yahoo", "stooq"] = "mock"
     fractional_shares: bool = True
-    compounding: bool = True
 
+    # --- Validation ---
     @field_validator("positions")
     @classmethod
     def validate_weights(cls, positions):
         total_weight = sum(p.weight for p in positions)
         if total_weight > 1.0:
-            raise ValueError(f"Sum of weights must be <= 1.0, got {total_weight}")
+            raise ValueError(
+                f"Sum of weights must be <= 1.0, got {total_weight}"
+            )
         return positions

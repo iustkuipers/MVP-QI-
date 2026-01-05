@@ -51,4 +51,4 @@ class MockMarketDataProvider(MarketDataProvider):
 
         return df
 
-        return df
+    
