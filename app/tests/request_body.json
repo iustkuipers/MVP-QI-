@@ -1,0 +1,15 @@
+{
+  "start_date": "2020-01-01",
+  "end_date": "2021-01-01",
+  "initial_cash": 100000,
+  "positions": [
+    {"ticker": "AAPL", "weight": 0.4},
+    {"ticker": "MSFT", "weight": 0.4},
+    {"ticker": "IUST", "weight": 0.1}
+  ],
+  "risk_free_rate": 0.03,
+  "benchmark_ticker": "VOO",
+  "rebalance": "none",
+  "data_provider": "mock"
+
+}
