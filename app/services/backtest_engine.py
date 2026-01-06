@@ -1,7 +1,10 @@
+import pandas as pd
+import numpy as np
+
 from app.api.schemas import BacktestRequest
 from app.services.market_data.loader import load_prices
 from app.services.portfolio.simulator import simulate_portfolio
-from app.services.metrics.metrics import compute_metrics
+from app.services.metrics.metrics import compute_metrics, compute_rolling_metrics
 from app.services.serialization.series import serialize_series
 
 
@@ -14,7 +17,7 @@ def run_backtest(request: BacktestRequest | dict) -> dict:
     equity_tickers = [p.ticker for p in request.positions]
     tickers = equity_tickers.copy()
 
-    if request.benchmark_ticker:
+    if request.benchmark_ticker and request.benchmark_ticker not in tickers:
         tickers.append(request.benchmark_ticker)
 
     # --- 2. Load prices ---
@@ -48,7 +51,7 @@ def run_backtest(request: BacktestRequest | dict) -> dict:
             rebalance="none",
         )
 
-    # --- 5. Metrics ---
+    # --- 5. Scalar metrics ---
     metrics = compute_metrics(
         nav=portfolio_result.nav,
         returns=portfolio_result.daily_returns,
@@ -57,7 +60,14 @@ def run_backtest(request: BacktestRequest | dict) -> dict:
         benchmark_returns=benchmark_result.daily_returns if benchmark_result else None,
     )
 
-    # --- 6. Split & sanitize metrics ---
+    # --- 6. Rolling metrics ---
+    rolling_metrics_series = compute_rolling_metrics(
+        nav=portfolio_result.nav,
+        returns=portfolio_result.daily_returns,
+        risk_free_rate=request.risk_free_rate,
+    )
+
+    # --- 7. Split scalar metrics ---
     relative_metric_keys = {
         "excess_return",
         "tracking_error",
@@ -80,7 +90,28 @@ def run_backtest(request: BacktestRequest | dict) -> dict:
         else None
     )
 
-    # --- 7. Serialize time series ---
+    # --- 8. Serialize rolling metrics with proper structure ---
+    # Convert { dates: [...], values: [...] } to [{ date, value }, ...]
+    def serialize_rolling_series(series):
+        dates = series.index.strftime("%Y-%m-%d").tolist()
+        values = [
+            None if (pd.isna(v) or np.isinf(v)) else v
+            for v in series.values
+        ]
+        return [
+            {"date": d, "value": v}
+            for d, v in zip(dates, values)
+        ]
+    
+    rolling_metrics = {
+        "window_days": 252,
+        "series": {
+            k: serialize_rolling_series(v)
+            for k, v in rolling_metrics_series.items()
+        }
+    }
+
+    # --- 9. Build response ---
     return {
         "success": True,
         "series": {
@@ -94,6 +125,7 @@ def run_backtest(request: BacktestRequest | dict) -> dict:
             ),
         },
         "portfolio_metrics": portfolio_metrics,
+        "rolling_metrics": rolling_metrics,
         "relative_metrics": relative_metrics,
         "issues": portfolio_result.issues,
     }

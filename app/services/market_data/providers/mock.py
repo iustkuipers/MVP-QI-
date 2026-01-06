@@ -7,8 +7,14 @@ TICKER_CONFIG = {
     "AAPL": {"start": 150.0, "vol": 0.22},
     "MSFT": {"start": 300.0, "vol": 0.20},
     "VOO":  {"start": 400.0, "vol": 0.15},
+    "SPY":  {"start": 450.0, "vol": 0.16},
+    "QQQ":  {"start": 350.0, "vol": 0.25},
+    "IVV":  {"start": 420.0, "vol": 0.14},
+    "AGG":  {"start": 100.0, "vol": 0.05},
     "AEX":  {"start": 750.0, "vol": 0.18},
     "IUST": {"start": 25.0,  "vol": 0.35},
+    "BND":  {"start": 80.0,  "vol": 0.06},
+    "VTI":  {"start": 210.0, "vol": 0.16},
 }
 
 

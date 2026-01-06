@@ -25,6 +25,10 @@ interface BacktestFormProps {
   onRiskFreeRateChange: (value: string) => void;
   benchmarkTicker: string;
   onBenchmarkTickerChange: (value: string) => void;
+  fractionalShares: boolean;
+  onFractionalSharesChange: (value: boolean) => void;
+  riskFreeCompounding: string;
+  onRiskFreeCompoundingChange: (value: string) => void;
   onSubmit: (payload: BacktestRequest) => void;
   loading: boolean;
 }
@@ -42,6 +46,10 @@ export function BacktestForm({
   onRiskFreeRateChange,
   benchmarkTicker,
   onBenchmarkTickerChange,
+  fractionalShares,
+  onFractionalSharesChange,
+  riskFreeCompounding,
+  onRiskFreeCompoundingChange,
   onSubmit,
   loading,
 }: BacktestFormProps) {
@@ -72,14 +80,14 @@ export function BacktestForm({
       positions: positions
         .filter(p => p.ticker.trim())
         .map(p => ({
-          ticker: p.ticker,
+          ticker: p.ticker.toUpperCase(),
           weight: Number(p.weight),
         })),
       risk_free_rate: Number(riskFreeRate),
-      benchmark_ticker: benchmarkTicker || undefined,
+      benchmark_ticker: benchmarkTicker ? benchmarkTicker.toUpperCase() : undefined,
       rebalance: 'none',
-      fractional_shares: false,
-      risk_free_compounding: 'daily',
+      fractional_shares: fractionalShares,
+      risk_free_compounding: riskFreeCompounding,
       data_provider: 'mock',
     };
 
@@ -192,6 +200,7 @@ export function BacktestForm({
               onChange={(e) => onBenchmarkTickerChange(e.target.value)}
               disabled={loading}
               style={styles.input}
+              placeholder="e.g., VOO"
             />
           </label>
           <label style={styles.label}>
@@ -206,6 +215,35 @@ export function BacktestForm({
             />
           </label>
         </div>
+      </div>
+
+      {/* Options */}
+      <div style={styles.section}>
+        <h3 style={styles.sectionTitle}>Options</h3>
+        <label style={{ ...styles.label, flexDirection: 'row', alignItems: 'center', gap: '8px' }}>
+          <input
+            type="checkbox"
+            checked={fractionalShares}
+            onChange={(e) => onFractionalSharesChange(e.target.checked)}
+            disabled={loading}
+            style={{ width: 'auto', margin: 0 }}
+          />
+          Allow Fractional Shares
+        </label>
+        <label style={styles.label}>
+          Risk-Free Compounding Frequency
+          <select
+            value={riskFreeCompounding}
+            onChange={(e) => onRiskFreeCompoundingChange(e.target.value)}
+            disabled={loading}
+            style={styles.input}
+          >
+            <option value="daily">Daily</option>
+            <option value="quarterly">Quarterly</option>
+            <option value="yearly">Yearly</option>
+            <option value="continuous">Continuous</option>
+          </select>
+        </label>
       </div>
 
       {/* Submit */}

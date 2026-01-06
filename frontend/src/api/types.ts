@@ -4,12 +4,36 @@
  */
 
 /**
- * Time series data structure
- * Used for all series: nav, equity, cash, benchmark_nav
+ * A single point in a time series
+ * null is intentional - represents NaN or missing data
+ */
+export interface TimeSeriesPoint {
+  date: string;
+  value: number | null;
+}
+
+/**
+ * Time series data structure - two formats for API compatibility
+ * API returns { dates: [], values: [] }
+ * We also support { date, value }[] for charts
  */
 export interface TimeSeries {
   dates: string[];
   values: number[];
+}
+
+/**
+ * Rolling metrics response from backend
+ * Contains window size and series data
+ */
+export interface RollingMetricsResponse {
+  window_days?: number;
+  series: {
+    rolling_volatility: TimeSeriesPoint[];
+    rolling_sharpe: TimeSeriesPoint[];
+    rolling_max_drawdown: TimeSeriesPoint[];
+    rolling_cagr: TimeSeriesPoint[];
+  };
 }
 
 /**
@@ -53,6 +77,7 @@ export interface BacktestResponse {
   success: boolean;
   series: BacktestSeries;
   portfolio_metrics: PortfolioMetrics;
+  rolling_metrics?: RollingMetricsResponse;
   relative_metrics?: RelativeMetrics;
   issues: string[];
 }

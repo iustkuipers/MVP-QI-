@@ -2,11 +2,13 @@
  * Test: Form → API → Adapter → Display
  * 
  * This validates the entire data flow works end-to-end
+ * Tests separation of scalar metrics from rolling metrics
  */
 
 import { adaptBacktest } from '../adapters/backtestAdapter';
 
 // Simulate the backend response (example_response.json structure)
+// Now includes rolling_metrics
 const mockBacktestResponse = {
   success: true,
   series: {
@@ -54,6 +56,31 @@ const mockBacktestResponse = {
     sharpe: -0.246735831420611,
     max_drawdown: -0.12686389148683175,
   },
+  rolling_metrics: {
+    window_days: 252,
+    series: {
+      rolling_volatility: [
+        { date: '2020-01-01', value: null },
+        { date: '2020-06-01', value: 0.145 },
+        { date: '2021-01-01', value: 0.128 },
+      ],
+      rolling_sharpe: [
+        { date: '2020-01-01', value: null },
+        { date: '2020-06-01', value: -0.05 },
+        { date: '2021-01-01', value: -0.247 },
+      ],
+      rolling_max_drawdown: [
+        { date: '2020-01-01', value: null },
+        { date: '2020-06-01', value: -0.08 },
+        { date: '2021-01-01', value: -0.127 },
+      ],
+      rolling_cagr: [
+        { date: '2020-01-01', value: null },
+        { date: '2020-06-01', value: -0.008 },
+        { date: '2021-01-01', value: -0.009 },
+      ],
+    },
+  },
   relative_metrics: {
     excess_return: 0.03512063566064383,
     tracking_error: 0.19666791205782988,
@@ -76,6 +103,22 @@ try {
   console.assert(adapted.relativeMetrics !== null, 'Relative metrics exists');
   console.assert(adapted.relativeMetrics.excess_return === 0.03512063566064383, 'Relative metrics values preserved');
   
+  // Test rolling metrics separation (NEW)
+  console.assert(adapted.rollingMetrics !== null, 'Rolling metrics exists');
+  console.assert(adapted.rollingMetrics?.window_days === 252, 'Window days preserved');
+  console.assert(
+    adapted.rollingMetrics?.series.rolling_volatility.length === 3,
+    'Rolling volatility points exist'
+  );
+  console.assert(
+    adapted.rollingMetrics?.series.rolling_volatility[0].value === null,
+    'Rolling volatility has null at start'
+  );
+  console.assert(
+    adapted.rollingMetrics?.series.rolling_volatility[1].value === 0.145,
+    'Rolling volatility has numeric value'
+  );
+  
   console.log('✅ Adapter test passed');
 } catch (err) {
   console.error('❌ Adapter test failed:', err);
@@ -91,8 +134,8 @@ try {
   console.log('✅ Adapter correctly throws on failure');
 }
 
-// Test 3: Benchmark is optional
-console.log('\nTEST 3: Benchmark is optional');
+// Test 3: Benchmark and rolling metrics are optional
+console.log('\nTEST 3: Benchmark and rolling metrics are optional');
 try {
   const responseNoBenchmark = {
     ...mockBacktestResponse,
@@ -101,15 +144,17 @@ try {
       benchmark_nav: undefined,
     },
     relative_metrics: undefined,
+    rolling_metrics: undefined,
   };
   
   const adapted = adaptBacktest(responseNoBenchmark);
   console.assert(adapted.benchmarkSeries === null, 'Benchmark is null when not provided');
   console.assert(adapted.relativeMetrics === null, 'Relative metrics is null when not provided');
+  console.assert(adapted.rollingMetrics === null, 'Rolling metrics is null when not provided');
   
-  console.log('✅ Optional benchmark test passed');
+  console.log('✅ Optional metrics test passed');
 } catch (err) {
-  console.error('❌ Optional benchmark test failed:', err);
+  console.error('❌ Optional metrics test failed:', err);
 }
 
 console.log('\n✅ All tests passed. Data flow is working.');

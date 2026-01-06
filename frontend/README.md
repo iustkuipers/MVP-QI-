@@ -1,53 +1,223 @@
-# STEP A: COMPLETE ✅
+# Quant Insights Frontend
 
-## What Was Built
+A modern React dashboard for quantitative portfolio backtesting with real-time visualization and metrics.
 
-You now have a **fully functional ignition switch** for the frontend.
+## Status: Step 2 Complete ✅
 
-### The Form
-- Located at: `src/components/common/BacktestForm.tsx`
-- Captures all backtest parameters
-- Comes with sensible defaults (you can just click "Run Backtest")
-- Disabled during API call
-- Allows retry after success/error
-
-### The Integration
-- BacktestPage now shows the form
-- Form submit triggers `run(payload)`
-- Loading state appears while processing
-- Results or errors display below
-- Form stays visible for adjustments
-
-### The Data Flow
-```
-User Submit
-  → Form builds payload
-  → run(payload)
-  → API call to /api/v1/backtest
-  → Backend processes (5-30 seconds)
-  → Response arrives
-  → Adapter transforms data
-  → UI updates with results
-  → User sees metrics & charts placeholder
-```
+**Form submission works end-to-end** → **Charts render live data** → **Metrics display correctly**
 
 ---
 
-## To Test It Right Now
+## Features
 
-### With Backend Running (Recommended)
+### Form Input (Step A)
+- ✅ Dynamic position management (add/remove positions)
+- ✅ Date range selection
+- ✅ Initial capital input
+- ✅ Risk-free rate configuration
+- ✅ Benchmark ticker selection (optional)
+- ✅ Fractional shares toggle
+- ✅ Risk-free compounding frequency (daily, quarterly, yearly, continuous)
+- ✅ Case-insensitive ticker input (auto-uppercased)
+- ✅ Form state persists after backtest execution
 
-**Terminal 1:**
+### Charts (Step 2)
+- ✅ **Portfolio NAV vs Benchmark** (line chart with optional benchmark overlay)
+- ✅ **Equity vs Cash Composition** (area chart with total NAV line overlay)
+- Built with Recharts (performant, declarative, responsive)
+
+### Metrics Display
+- ✅ Portfolio metrics (total return, CAGR, volatility, Sharpe, max drawdown)
+- ✅ Relative metrics when benchmark provided (excess return, tracking error, info ratio)
+- ✅ Proper formatting (percentages, decimals, currency)
+
+### State Management
+- ✅ Loading states with spinner
+- ✅ Error handling with recovery
+- ✅ Form values persist (doesn't reset after backtest)
+- ✅ Responsive layout
+
+---
+
+## Quick Start
+
+### Prerequisites
+- Node.js 16+
+- Backend running on `http://localhost:8000`
+
+### Installation & Run
+
+```bash
+cd frontend
+
+# Install dependencies
+npm install
+
+# Start dev server (port 3000)
+npm run dev
+
+# Build for production
+npm run build
+```
+
+Backend must be running:
 ```bash
 cd backend
 python -m uvicorn app.main:app --reload --port 8000
 ```
 
-**Terminal 2:**
-```bash
-cd frontend
-npm install
-npm start
+---
+
+## Project Structure
+
+```
+frontend/
+├── src/
+│   ├── main.tsx                    # Entry point
+│   ├── App.tsx                     # Root component
+│   ├── api/
+│   │   ├── types.ts                # Type definitions (mirror backend)
+│   │   ├── client.ts               # HTTP client (fetch wrapper)
+│   │   └── backtest.ts             # Backtest endpoint
+│   ├── adapters/
+│   │   └── backtestAdapter.tsx     # Response validation + transformation
+│   ├── hooks/
+│   │   └── useBacktest.ts          # State management hook
+│   ├── components/
+│   │   ├── charts/
+│   │   │   ├── NavChart.tsx        # Portfolio NAV vs Benchmark
+│   │   │   ├── EquityCashChart.tsx # Equity vs Cash composition
+│   │   │   └── Chart.types.ts      # Chart prop interfaces
+│   │   ├── panels/
+│   │   │   ├── PortfolioMetricsPanel.tsx
+│   │   │   ├── RelativeMetricsPanel.tsx
+│   │   │   └── IssuesPanel.tsx
+│   │   └── common/
+│   │       ├── BacktestForm.tsx    # Input form (controlled component)
+│   │       ├── LoadingState.tsx
+│   │       ├── ErrorState.tsx
+│   │       └── EmptyState.tsx
+│   ├── pages/
+│   │   └── BacktestPage/
+│   │       ├── BacktestPage.tsx    # Page orchestration + form state
+│   │       ├── BacktestPage.styles.ts
+│   │       └── BacktestPage.types.ts
+│   ├── styles/
+│   │   ├── theme.ts                # Design tokens
+│   │   └── globals.css             # Base styles
+│   └── utils/
+│       ├── number.ts               # formatPercent, formatCurrency, etc
+│       ├── date.ts                 # Date formatting
+│       └── guards.ts               # Type guards
+├── index.html
+├── package.json
+├── vite.config.ts
+├── tsconfig.json
+└── .env.local                      # API base URL config
+```
+
+---
+
+## Architecture
+
+### Layered Design
+```
+UI Components (dumb rendering)
+    ↓
+Page Container (state orchestration + form state)
+    ↓
+Hook (data fetching + state management)
+    ↓
+Adapter (response validation + transformation)
+    ↓
+API Client (HTTP layer)
+    ↓
+Backend /api/v1/backtest
+```
+
+**Key Principles:**
+- Backend is source of truth (never recompute metrics)
+- No calculations in components (only formatting)
+- Form state at page level (persists across renders)
+- Types mirror backend exactly (prevents silent failures)
+- Charts are pure presentational (data flows in, renders out)
+
+---
+
+## Supported Tickers (Mock Data)
+
+- **Tech**: AAPL, MSFT
+- **Broad Market**: VOO, SPY, IVV, QQQ, VTI
+- **Bonds**: AGG, BND
+- **Other**: AEX, IUST
+
+Any combination can be used as positions OR benchmarks.
+
+---
+
+## Type Safety
+
+All types in `src/api/types.ts` are hand-synced with backend response structure. Before running a backtest, check [backend example response](../response_body.json) if you're unsure about data shape.
+
+---
+
+## Environment Variables
+
+Create `.env.local`:
+```
+VITE_API_BASE_URL=http://localhost:8000
+```
+
+Accessed in code as: `import.meta.env.VITE_API_BASE_URL`
+
+---
+
+## Next Steps (Step 3)
+
+**Polish phase:**
+- Form validation (catch errors before API call)
+- Responsive design (mobile-friendly breakpoints)
+- Better error messages (user-facing feedback)
+- Unit tests (Jest + React Testing Library)
+- Accessibility (a11y improvements)
+- Optional: Drawdown chart, additional metrics visualization
+
+---
+
+## Debugging
+
+### White screen?
+1. Check browser console for errors
+2. Verify `.env.local` has correct API URL
+3. Ensure backend is running on port 8000
+
+### API errors?
+1. Check Network tab (DevTools) for request/response
+2. Verify form values are valid (dates, numbers, tickers)
+3. Check backend logs for server errors
+
+### Data not showing?
+1. Ensure backtest completed successfully (no error state)
+2. Verify API response has correct structure (check adapter)
+3. Check that tickers are supported by mock provider
+
+---
+
+## Technologies
+
+- **React 18** - UI framework
+- **TypeScript** - Type safety
+- **Vite** - Build tool + dev server
+- **Recharts** - Chart library
+- **Fetch API** - HTTP client
+
+---
+
+## Notes
+
+- Charts are currently using mock market data (see `backend/app/services/market_data/providers/mock.py`)
+- Backtests run deterministically (seed=42 for reproducibility)
+- Response times typically 2-5 seconds depending on date range
 ```
 
 Then:
