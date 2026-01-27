@@ -1,0 +1,65 @@
+/**
+ * CrashOutput styles
+ */
+
+.outputContainer {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 20px;
+  color: #00d4ff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  background: #0f0f0f;
+  border: 1px solid #2a2a2a;
+  border-radius: 6px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.table th {
+  background: #0f0f0f;
+  color: #666;
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  border-bottom: 1px solid #2a2a2a;
+  white-space: nowrap;
+}
+
+.table td {
+  color: #fff;
+  padding: 12px;
+  border-bottom: 1px solid #1a1a1a;
+  font-family: 'Monaco', 'Courier New', monospace;
+}
+
+.table tbody tr:hover {
+  background: #151515;
+}
+
+.crash {
+  color: #ff6b6b;
+  font-weight: 600;
+}
+
+.value {
+  color: #00d4ff;
+  font-weight: 600;
+}

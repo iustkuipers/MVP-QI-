@@ -6,6 +6,9 @@ Main FastAPI application
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.routes.backtest import router as backtest_router
+from app.api.routes.options import router as options_router
+from app.api.routes.market import router as market_router
+from app.api.routes.strategy import router as strategy_router
 
 app = FastAPI(
     title="Quant Insights",
@@ -24,7 +27,9 @@ app.add_middleware(
 
 # Include routers
 app.include_router(backtest_router)
-
+app.include_router(options_router)
+app.include_router(market_router)
+app.include_router(strategy_router)
 
 @app.get("/")
 def read_root():

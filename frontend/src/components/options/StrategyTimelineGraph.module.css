@@ -1,0 +1,110 @@
+/**
+ * StrategyTimelineGraph component styles
+ */
+
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.graphContainer {
+  width: 100%;
+  max-width: 1000px;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 20px;
+  color: #333;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.statItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.statLabel {
+  font-size: 12px;
+  color: #666;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.statValue {
+  font-size: 14px;
+  font-weight: 700;
+  color: #333;
+}
+
+.emptyState {
+  color: #999;
+  text-align: center;
+  padding: 40px;
+}
+
+.preferenceOrdering {
+  margin-top: 20px;
+  padding: 16px;
+  background-color: #f9f9f9;
+  border: 1px solid #e8e8e8;
+  border-radius: 6px;
+}
+
+.preferenceTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin: 0 0 10px;
+}
+
+.preferenceList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.preferenceList li {
+  font-size: 13px;
+  color: #999;
+  padding: 6px 0;
+  transition: all 0.2s ease;
+}
+
+.preferenceList li.active {
+  color: #333;
+  font-weight: 600;
+}
+
+.preferenceList li:first-child.active {
+  color: #2e7d32;
+}
+
+.preferenceList li:nth-child(2).active {
+  color: #c62828;
+}
+
+.preferenceList li:nth-child(3).active {
+  color: #f57c00;
+}

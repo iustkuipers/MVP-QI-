@@ -1,0 +1,93 @@
+/**
+ * MonteCarloOutput styles
+ */
+
+.outputContainer {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 20px;
+  color: #00d4ff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.subtitle {
+  font-size: 13px;
+  font-weight: 600;
+  margin: 16px 0 12px;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.metric {
+  background: #0f0f0f;
+  border: 1px solid #2a2a2a;
+  border-radius: 6px;
+  padding: 12px;
+  text-align: center;
+}
+
+.label {
+  font-size: 11px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-bottom: 6px;
+}
+
+.value {
+  font-size: 16px;
+  font-weight: 700;
+  color: #00d4ff;
+  font-family: 'Monaco', 'Courier New', monospace;
+}
+
+.percentilesSection {
+  background: #0f0f0f;
+  border: 1px solid #2a2a2a;
+  border-radius: 6px;
+  padding: 12px;
+}
+
+.percentilesList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
+}
+
+.percentileRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid #1a1a1a;
+  font-size: 12px;
+}
+
+.percentileRow:last-child {
+  border-bottom: none;
+}
+
+.percentileLabel {
+  color: #666;
+}
+
+.percentileValue {
+  color: #00d4ff;
+  font-weight: 600;
+  font-family: 'Monaco', 'Courier New', monospace;
+}

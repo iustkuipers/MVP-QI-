@@ -1,0 +1,137 @@
+/**
+ * MarketAssumptions styles
+ */
+
+.card {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 16px;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field label {
+  font-size: 11px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  font-weight: 600;
+}
+
+.field input {
+  background: #ffffff;
+  border: 1px solid #d0d0d0;
+  color: #333;
+  padding: 10px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: inherit;
+}
+
+.field input::placeholder {
+  color: #999;
+}
+
+.field input:focus {
+  outline: none;
+  border-color: #1976d2;
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
+}
+
+.note {
+  font-size: 11px;
+  color: #999;
+  margin-top: 4px;
+  font-style: italic;
+  display: block;
+}
+
+.hint {
+  font-size: 11px;
+  color: #666;
+  margin-top: 2px;
+}
+
+.utilitySection {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.subtitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin: 0 0 12px;
+}
+
+.radioGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.radioLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #333;
+  cursor: pointer;
+  user-select: none;
+}
+
+.radioLabel input[type="radio"] {
+  cursor: pointer;
+  margin: 0;
+}
+
+.radioLabel input[type="number"] {
+  padding: 4px 6px;
+  border: 1px solid #d0d0d0;
+  border-radius: 3px;
+  font-size: 12px;
+}
+
+.radioLabel input[type="number"]:disabled {
+  background-color: #f5f5f5;
+  color: #999;
+  cursor: not-allowed;
+}
+
+.note {
+  font-size: 12px;
+  color: #666;
+  font-style: italic;
+  margin: 8px 0 0;
+  line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

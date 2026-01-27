@@ -1,0 +1,263 @@
+/**
+ * SurfaceOutput styles - Enhanced with axis labels and clearer layout
+ */
+
+.outputContainer {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.header {
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 6px;
+  color: #00d4ff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.subtitle {
+  font-size: 12px;
+  color: #999;
+  margin: 0;
+  font-style: italic;
+}
+
+.controls {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.controls label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #fff;
+}
+
+.controls select {
+  background: #0f0f0f;
+  border: 1px solid #333;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.controls select:focus {
+  outline: none;
+  border-color: #00d4ff;
+}
+
+/* Main heatmap container with axes */
+.heatmapContainer {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  grid-template-rows: auto 1fr auto;
+  gap: 8px;
+  margin-bottom: 20px;
+  background: #0f0f0f;
+  border: 1px solid #2a2a2a;
+  border-radius: 6px;
+  padding: 16px;
+}
+
+.yAxisLabel {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: #00d4ff;
+  padding: 0 8px;
+  white-space: nowrap;
+}
+
+.xAxisLabel {
+  grid-column: 2;
+  grid-row: 3;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: #00d4ff;
+  padding: 8px 0;
+}
+
+.heatmapWrapper {
+  grid-column: 2;
+  grid-row: 2;
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  grid-template-rows: 40px 1fr;
+  gap: 0;
+  overflow-x: auto;
+}
+
+.rowLabelsColumn {
+  grid-column: 1;
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cornerPlaceholder {
+  height: 40px;
+  width: 50px;
+}
+
+.rowLabel {
+  width: 50px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 11px;
+  color: #888;
+  padding-right: 8px;
+  border-right: 1px solid #333;
+}
+
+.gridWrapper {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  display: grid;
+  grid-template-rows: 40px 1fr;
+  gap: 0;
+}
+
+.columnLabelsRow {
+  display: flex;
+  gap: 2px;
+  padding-left: 0;
+}
+
+.colLabel {
+  width: 38px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: #888;
+  border-bottom: 1px solid #333;
+}
+
+.heatmap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0;
+}
+
+.row {
+  display: flex;
+  gap: 2px;
+}
+
+.cell {
+  width: 38px;
+  height: 38px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 600;
+  font-family: 'Monaco', 'Courier New', monospace;
+  position: relative;
+}
+
+.cellValue {
+  opacity: 0.8;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+}
+
+.cell:hover {
+  transform: scale(1.15);
+  z-index: 20;
+  box-shadow: 0 0 12px rgba(0, 212, 255, 0.4);
+  border-color: #00d4ff;
+}
+
+/* Legend and range info */
+.legendSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+  background: #0f0f0f;
+  border: 1px solid #2a2a2a;
+  border-radius: 6px;
+}
+
+.scaleLegend {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  color: #888;
+}
+
+.scaleLabel {
+  min-width: 40px;
+  text-align: center;
+  font-weight: 500;
+  color: #666;
+}
+
+.scaleBar {
+  flex: 1;
+  height: 20px;
+  background: linear-gradient(to right, hsl(240, 100%, 50%), hsl(120, 100%, 50%), hsl(60, 100%, 50%), hsl(0, 100%, 50%));
+  border-radius: 3px;
+  border: 1px solid #333;
+}
+
+.rangeInfo {
+  font-size: 11px;
+  color: #666;
+  margin: 0;
+  text-align: center;
+  font-family: 'Monaco', 'Courier New', monospace;
+  padding: 8px;
+  background: rgba(0, 212, 255, 0.05);
+  border-radius: 4px;
+  border-left: 2px solid #00d4ff;
+}
+
+/* Tooltip for hover info */
+.tooltip {
+  position: fixed;
+  background: #1a1a1a;
+  border: 1px solid #00d4ff;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #fff;
+  pointer-events: none;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
+}
+
+.tooltip strong {
+  color: #00d4ff;
+}
