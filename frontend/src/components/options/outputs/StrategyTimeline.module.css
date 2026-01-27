@@ -1,0 +1,238 @@
+.container {
+  background: rgba(26, 26, 26, 0.8);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  border-radius: 4px;
+  padding: 20px;
+  margin: 24px auto;
+  max-width: 100%;
+  width: 100%;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #00d4ff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0 0 16px 0;
+}
+
+/* Controls: Date range + Run button */
+.controls {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+  align-items: flex-end;
+}
+
+.dateRange {
+  display: flex;
+  gap: 12px;
+  flex: 1;
+}
+
+.dateField {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dateField label {
+  font-size: 12px;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dateField input {
+  padding: 8px 12px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 13px;
+}
+
+.dateField input:focus {
+  outline: none;
+  border-color: #00d4ff;
+}
+
+.runButton {
+  padding: 10px 20px;
+  background: #00d4ff;
+  border: none;
+  color: #000;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 13px;
+}
+
+.runButton:hover:not(:disabled) {
+  background: #00e6ff;
+}
+
+.runButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Content: toggles + chart */
+.content {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.togglePanel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #333;
+  border-radius: 4px;
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.toggleLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  color: #ccc;
+  user-select: none;
+}
+
+.toggleLabel input {
+  cursor: pointer;
+  margin: 0;
+}
+
+.colorDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.labelText {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Chart */
+.chartContainer {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid #333;
+  border-radius: 4px;
+  overflow-x: auto;
+  padding: 12px;
+}
+
+.chart {
+  display: block;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Empty/Error states */
+.emptyBox {
+  background: rgba(0, 212, 255, 0.05);
+  border: 1px solid rgba(0, 212, 255, 0.1);
+  border-radius: 4px;
+  padding: 24px;
+  color: #00d4ff;
+  text-align: center;
+  font-size: 13px;
+}
+
+.errorBox {
+  background: rgba(255, 100, 100, 0.05);
+  border: 1px solid rgba(255, 100, 100, 0.2);
+  border-radius: 4px;
+  padding: 16px;
+  color: #ff6464;
+  font-size: 13px;
+}
+
+.errorBox p {
+  margin: 0;
+}
+
+/* Metrics table */
+.metricsTable {
+  margin-top: 20px;
+}
+
+.metricsTable h3 {
+  font-size: 14px;
+  color: #00d4ff;
+  margin: 0 0 12px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.metricsTable table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.metricsTable thead {
+  background: rgba(0, 212, 255, 0.05);
+  border-bottom: 1px solid #333;
+}
+
+.metricsTable th {
+  padding: 8px 12px;
+  text-align: left;
+  color: #00d4ff;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.metricsTable td {
+  padding: 8px 12px;
+  border-bottom: 1px solid #222;
+  color: #ccc;
+}
+
+.metricsTable tbody tr:hover {
+  background: rgba(0, 212, 255, 0.02);
+}
+
+.positive {
+  color: #00ff00;
+}
+
+.negative {
+  color: #ff6464;
+}
+
+@media (max-width: 768px) {
+  .controls {
+    flex-direction: column;
+  }
+
+  .dateRange {
+    flex-direction: column;
+  }
+
+  .content {
+    grid-template-columns: 1fr;
+  }
+
+  .togglePanel {
+    display: none;
+  }
+}

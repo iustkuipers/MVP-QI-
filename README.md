@@ -6,7 +6,7 @@ A comprehensive portfolio backtesting platform with visual comparison and analys
 
 Quant Insights is a full-stack backtesting platform combining a robust Python backend with an interactive React frontend. Simulate portfolio performance, compare strategies side-by-side, and analyze rolling metrics with visual clarity. Share reproducible analyses via shareable links.
 
-**Current Version: v1.1** - Portfolio Comparison & Shareable Links
+**Current Version: v1.2** - Options Sandbox & Strategy Timeline Analysis
 
 ## Features
 
@@ -23,27 +23,47 @@ Quant Insights is a full-stack backtesting platform combining a robust Python ba
   - Rolling metrics (4-window analysis)
   - Excess Return, Tracking Error & Information Ratio (vs benchmark)
 - **Benchmark Comparison**: Support any ticker as benchmark (same ticker as position allowed)
+- **Options Pricing Engine** (v1.2 New!):
+  - Black-Scholes European option pricing
+  - Real-time option valuation with historical volatility
+  - Support for both call and put options
+  - Individual entry date tracking for each position
+- **Strategy Timeline Analysis** (v1.2 New!):
+  - Compute portfolio value across historical date ranges
+  - Compare strategy performance vs buy-and-hold baseline
+  - Accurate option premium accounting
+  - Multi-leg strategy support (calls, puts, stock positions)
 - **JSON Serialization**: Frontend-ready data formats for visualization
 
-### Frontend (v1.1 New!)
-- **Portfolio Comparison Mode**: Run two backtests side-by-side with:
-  - Dual independent form configurations
+### Frontend (v1.2 New!)
+- **Options Sandbox** (New Tool):
+  - Define multi-leg option strategies (calls, puts, stock positions)
+  - Specify individual entry dates and premiums paid/received
+  - Single symbol picker for unified analysis
+  - Simulation period selection (date range)
+  - Market assumptions (volatility, risk-free rate, dividend yield)
+  - Real-time strategy timeline visualization with Recharts
+- **Strategy Timeline Comparison**:
+  - 3-line chart visualization:
+    - Underlying asset price (historical close)
+    - Portfolio value (options + stock combined)
+    - Buy-and-hold baseline (using deployed capital)
+  - Shows exact values at start/end dates
+  - Delta calculation for strategy vs baseline performance
+- **Portfolio Comparison Mode** (v1.1):
+  - Run two backtests side-by-side with dual independent form configurations
   - Portfolio A live preview while Portfolio B runs
   - Metrics comparison table with semantic delta coloring
   - Side-by-side portfolio charts (NAV, Equity/Cash allocation)
-- **Rolling Metrics Analysis**: Track 4 metrics over time with:
-  - Tabbed interface (volatility, Sharpe, max drawdown, CAGR)
+- **Rolling Metrics Analysis** (v1.1):
+  - Track 4 metrics over time with tabbed interface
   - "Show only valid period" toggle to hide NaN padding
   - Works in both single and comparison modes
-- **Shareable Links**: Encode & share reproducible backtests:
-  - **Copy run link**: Share single-backtest configuration
-  - **Copy comparison link**: Share two-portfolio comparison setup
+- **Shareable Links** (v1.1):
+  - Encode & share reproducible backtests
   - Auto-restore and auto-run on link open
   - URL-safe compression (LZ + base64 fallback)
-- **Metric-Aware Coloring**: Delta colors reflect improvement semantically:
-  - Volatility ↓ = green, Sharpe ↑ = green (semantic accuracy)
-  - Tracks 5 core metrics with direction awareness
-- **Responsive UI**: Grid layouts, loading states, error handling
+- **Responsive UI**: Grid layouts, loading states, error handling, light mode styling
 
 ## Getting Started
 
@@ -107,28 +127,53 @@ quant_insights/
 │   │   ├── api/
 │   │   │   ├── schemas.py           # Pydantic request/response schemas
 │   │   │   └── routes/
-│   │   │       └── backtest.py      # FastAPI endpoints
+│   │   │       ├── backtest.py      # FastAPI endpoints for backtesting
+│   │   │       ├── options.py       # FastAPI endpoints for options analysis
+│   │   │       ├── market.py        # Market data endpoints
+│   │   │       └── strategy.py      # Strategy endpoints
 │   │   ├── core/
 │   │   │   ├── config.py            # Configuration management
 │   │   │   └── exceptions.py        # Custom exceptions
 │   │   ├── services/
-│   │   │   ├── backtest_engine.py   # Main orchestration logic
+│   │   │   ├── backtest_engine.py   # Main backtesting orchestration
 │   │   │   ├── market_data/         # Data loading and providers
-│   │   │   ├── metrics/             # Analytics and metrics
+│   │   │   │   └── providers/       # Mock, Yahoo Finance, etc.
+│   │   │   ├── metrics/             # Analytics and metrics calculation
 │   │   │   ├── portfolio/           # Portfolio simulation
-│   │   │   └── serialization/       # Data serialization
+│   │   │   ├── options/             # Options pricing and analysis
+│   │   │   │   ├── pricing/         # Black-Scholes, binomial, greeks
+│   │   │   │   ├── core/            # Option instruments and market data
+│   │   │   │   ├── portfolio/       # Option portfolio management
+│   │   │   │   ├── scenarios/       # Monte Carlo, stress tests, surfaces
+│   │   │   │   ├── timeline.py      # Strategy timeline computation
+│   │   │   │   └── volatility/      # Volatility models
+│   │   │   └── serialization/       # Data serialization for frontend
 │   │   └── tests/
 │   ├── request_body.json
 │   └── response_body.json
 └── frontend/
     ├── src/
     │   ├── api/                     # API client & types
+    │   │   ├── backtest.ts          # Backtest API calls
+    │   │   ├── options.ts           # Options API calls
+    │   │   ├── client.ts            # Axios client config
+    │   │   └── types.ts             # TypeScript interfaces
     │   ├── components/              # Reusable UI components
     │   │   ├── charts/              # Recharts visualizations
     │   │   ├── common/              # Forms, toggles, states
+    │   │   ├── options/             # Options-specific components
+    │   │   │   ├── StrategyBuilder.tsx
+    │   │   │   ├── MarketAssumptions.tsx
+    │   │   │   ├── StrategyTimelineGraph.tsx
+    │   │   │   ├── SymbolPicker.tsx
+    │   │   │   └── SimulationSettings.tsx
     │   │   └── panels/              # Metrics, comparison tables
     │   ├── hooks/                   # Custom React hooks
+    │   │   ├── useBacktest.ts       # Backtest hook
+    │   │   └── useBacktestComparison.ts
     │   ├── pages/                   # Page components
+    │   │   ├── BacktestPage/        # Portfolio backtesting
+    │   │   └── OptionsSandbox/      # Options strategy analysis
     │   ├── adapters/                # API response → UI transform
     │   ├── utils/                   # Helpers (comparison links, etc)
     │   └── styles/                  # Theme & global styles
@@ -144,10 +189,16 @@ quant_insights/
 ### Using the Web Interface
 
 1. Open [Portfolio Lab](http://localhost:5173) in your browser
-2. Configure a portfolio and click "Run Backtest"
-3. In **Single Mode**: View results, share with "Copy run link"
-4. In **Compare Mode**: Run a second portfolio and view side-by-side metrics, charts, rolling analysis
-5. Share either run or comparison using the copy button (auto-restores on link open)
+2. **Portfolio Backtesting Mode**: Configure a portfolio and click "Run Backtest"
+   - View results, share with "Copy run link"
+   - Compare mode: Run a second portfolio and view side-by-side metrics, charts, rolling analysis
+   - Share either run or comparison using the copy button (auto-restores on link open)
+3. **Options Sandbox** (New): Create and analyze multi-leg option strategies
+   - Select underlying symbol (e.g., AAPL)
+   - Define positions: add calls, puts, and stock positions with individual entry dates and premiums
+   - Set simulation period and market assumptions (volatility, risk-free rate, dividend yield)
+   - Click "Run Simulation" to see strategy timeline vs buy-and-hold
+   - Visualize portfolio value, underlying price, and baseline comparison across historical dates
 
 ### Backend API
 
@@ -291,27 +342,57 @@ python -m app.tests.test_run_backtest
 
 ## Release Notes
 
+### v1.2 - Options Sandbox & Strategy Timeline Analysis (Current)
+
+**Backend Enhancements:**
+- ✨ **Options Pricing Engine**:
+  - Black-Scholes European option pricing model
+  - Support for call and put options
+  - Real-time option valuation with historical market data
+  - Proper handling of implied volatility
+- ✨ **Strategy Timeline Endpoint**: `/api/v1/options/strategy-timeline`
+  - Compute portfolio value across any historical date range
+  - Support for multi-leg strategies (calls, puts, stock positions)
+  - Individual entry date tracking per position
+  - Premium/entry price accounting
+  - Buy-and-hold baseline comparison
+
+**Frontend Enhancements:**
+- ✨ **Options Sandbox Tool** (New Page):
+  - Symbol picker for unified analysis
+  - Strategy builder with position management:
+    - Support for calls, puts, and stock positions
+    - Per-position entry date and premium fields
+    - Easy add/remove position workflow
+  - Simulation period selector (start/end dates)
+  - Market assumptions panel (volatility, risk-free rate, dividend yield)
+  - Real-time strategy timeline visualization
+- ✨ **Strategy Timeline Graph** (New Component):
+  - 3-line comparison chart using Recharts:
+    - Underlying asset price (blue)
+    - Portfolio value with all legs (green)
+    - Buy-and-hold baseline (orange, dashed)
+  - Initial cost and spot price display
+  - Final value comparison and delta calculation
+  - Proper temporal handling: options only show value from entry date
+
+**Technical Improvements:**
+- Options only have values from their individual entry dates (not before)
+- Accurate premium handling for strategy cost basis
+- Historical data integration with option pricing calculations
+
+**Backward Compatibility:**
+- v1.1 portfolio comparison and backtesting features fully functional
+- All existing APIs unchanged
+
 ### v1.1 - Portfolio Comparison & Shareable Links
 
 **Frontend Enhancements:**
-- ✨ **Portfolio Comparison Mode**: Run two backtests side-by-side with independent configurations
-  - Portfolio A live preview while Portfolio B runs
-  - Real-time metric comparison with semantic delta coloring
-  - Synchronized chart switching between modes
+- ✨ **Portfolio Comparison Mode**: Run two backtests side-by-side
 - ✨ **Shareable Links**: Reproducible analysis sharing
-  - "Copy run link" in single mode (encodes config, auto-runs on open)
-  - "Copy comparison link" in comparison mode (encodes both configs)
-  - URL-safe compression with LZ + base64 fallback
-  - Auto-restore and auto-run on page load
 - ✨ **Rolling Metrics Analysis**: 4-window metric tracking
-  - Tabbed interface (Rolling Volatility, Sharpe, Max Drawdown, CAGR)
-  - "Show only valid period" toggle to skip NaN padding
-  - Works in both single and comparison modes
-- 🎨 **Metric-Aware Delta Coloring**: Semantic accuracy for improvement/deterioration
-  - Volatility ↓ = improvement (green)
-  - Sharpe ↑ = improvement (green)
-  - Correctly tracks direction for all 5 core metrics
-- 🐛 **Bug Fixes**: Fixed chart rendering, layout issues, data transformation
+- 🎨 **Metric-Aware Delta Coloring**: Semantic accuracy
+- 🐛 **Bug Fixes**: Chart rendering and layout issues
 
 **Backend (Stable):**
 - No breaking changes to API

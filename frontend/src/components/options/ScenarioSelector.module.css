@@ -1,0 +1,67 @@
+/**
+ * ScenarioSelector styles
+ */
+
+.card {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 16px;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.scenarioGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.scenarioOption {
+  background: #0f0f0f;
+  border: 2px solid #333;
+  border-radius: 6px;
+  padding: 16px 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.scenarioOption:hover {
+  border-color: #444;
+  background: #151515;
+}
+
+.scenarioOption.active {
+  border-color: #00d4ff;
+  background: rgba(0, 212, 255, 0.05);
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.description {
+  font-size: 11px;
+  color: #666;
+}
+
+.scenarioOption.active .description {
+  color: #00d4ff;
+}
+
+@media (max-width: 768px) {
+  .scenarioGrid {
+    grid-template-columns: 1fr;
+  }
+}

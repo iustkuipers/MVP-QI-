@@ -2,8 +2,9 @@
  * Root App component
  */
 
-import React, { Component, ReactNode } from 'react';
+import React, { Component, ReactNode, useState } from 'react';
 import './styles/globals.css';
+import { Navigation } from './components/Navigation';
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -49,14 +50,37 @@ const BacktestPageLazy = React.lazy(() =>
   })
 );
 
-export function App() {
+const OptionsSandboxLazy = React.lazy(() =>
+  import('./pages/OptionsSandbox/OptionsSandbox').then(m => {
+    console.log('OptionsSandbox loaded:', m);
+    return { default: m.OptionsSandbox };
+  }).catch(err => {
+    console.error('Error loading OptionsSandbox:', err);
+    throw err;
+  })
+);
+
+function AppContent() {
+  const [currentPage, setCurrentPage] = useState<'portfolio' | 'options'>('portfolio');
+
   return (
-    <ErrorBoundary>
-      <React.Suspense fallback={<div style={{ padding: '20px' }}>Loading BacktestPage...</div>}>
-        <BacktestPageLazy />
-      </React.Suspense>
-    </ErrorBoundary>
+    <>
+      <Navigation currentPage={currentPage} onNavigate={setCurrentPage} />
+      <ErrorBoundary>
+        <React.Suspense fallback={<div style={{ padding: '20px' }}>Loading...</div>}>
+          {currentPage === 'portfolio' ? (
+            <BacktestPageLazy />
+          ) : (
+            <OptionsSandboxLazy />
+          )}
+        </React.Suspense>
+      </ErrorBoundary>
+    </>
   );
+}
+
+export function App() {
+  return <AppContent />;
 }
 
 export default App;

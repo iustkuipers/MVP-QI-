@@ -28,6 +28,16 @@ export const styles = {
     margin: 0,
   } as CSSProperties,
 
+  theoreticalFramework: {
+    fontSize: '13px',
+    color: '#666',
+    backgroundColor: '#f5f5f5',
+    padding: '12px 16px',
+    borderRadius: '4px',
+    marginBottom: '16px',
+    border: '1px solid #e0e0e0',
+  } as CSSProperties,
+
   section: {
     padding: '16px',
     backgroundColor: '#ffffff',

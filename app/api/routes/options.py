@@ -20,6 +20,8 @@ from app.api.schemas import (
     SpotScenarioRequest,
     VolScenarioRequest,
     TimeScenarioRequest,
+    PayoffRequest,
+    StrategyTimelineRequest,
 )
 from app.services.options.options_service import OptionsService
 
@@ -151,4 +153,52 @@ def run_time_scenario(request: TimeScenarioRequest):
         market=request.market.dict(),
         today=date.fromisoformat(request.today),
         horizons=request.horizons,
+    )
+
+@router.post("/payoff")
+def run_payoff(request: PayoffRequest):
+    """
+    Generate payoff curves and value surfaces.
+    
+    Computes portfolio payoff at expiration and optionally value curves at today.
+    Useful for strategy visualization and P&L profiles.
+    
+    Returns:
+    - Payoff at expiration
+    - Value curve at today (optional)
+    - Greeks along spot grid (optional)
+    """
+    return service.run_payoff(
+        positions=[p.dict() for p in request.positions],
+        market=request.market.dict(),
+        today=date.fromisoformat(request.today),
+        expiry_date=date.fromisoformat(request.expiry_date),
+        spot_center=request.spot_center,
+        pct_range=request.pct_range,
+        n_points=request.n_points,
+        include_value_today=request.include_value_today,
+        include_greeks_today=request.include_greeks_today,
+    )
+
+
+@router.post("/strategy-timeline")
+def run_strategy_timeline(request: StrategyTimelineRequest):
+    """
+    Compute strategy timeline over historical period.
+    
+    Analyzes how portfolio would have performed historically with given positions.
+    Uses Black-Scholes for option pricing at each historical point.
+    
+    Returns:
+    - Historical underlying prices
+    - Portfolio value over time
+    - Individual option values over time
+    - Entry/expiry markers
+    """
+    return service.run_strategy_timeline(
+        positions=[p.dict() for p in request.positions],
+        market=request.market.dict(),
+        symbol=request.symbol,
+        start_date=request.start_date,
+        end_date=request.end_date,
     )

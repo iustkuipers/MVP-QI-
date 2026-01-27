@@ -21,6 +21,9 @@ export function PortfolioMetricsPanel({
   return (
     <div style={{ border: '1px solid #ddd', borderRadius: '4px', padding: '16px' }}>
       <h3 style={{ marginTop: 0 }}>{title}</h3>
+      <p style={{ fontSize: '12px', color: '#999', marginBottom: '12px', fontStyle: 'italic' }}>
+        Metrics are computed ex-post based on realized returns.
+      </p>
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
         <tbody>
           <tr style={{ borderBottom: '1px solid #eee' }}>
@@ -36,13 +39,13 @@ export function PortfolioMetricsPanel({
             </td>
           </tr>
           <tr style={{ borderBottom: '1px solid #eee' }}>
-            <td style={{ padding: '8px 0', color: '#666' }}>Volatility</td>
+            <td style={{ padding: '8px 0', color: '#666' }}>Realized volatility (σ)</td>
             <td style={{ padding: '8px 0', textAlign: 'right', fontWeight: 'bold' }}>
               {formatPercent(metrics.volatility)}
             </td>
           </tr>
           <tr style={{ borderBottom: '1px solid #eee' }}>
-            <td style={{ padding: '8px 0', color: '#666' }}>Sharpe</td>
+            <td style={{ padding: '8px 0', color: '#666' }}>Ex-post Sharpe ratio</td>
             <td style={{ padding: '8px 0', textAlign: 'right', fontWeight: 'bold' }}>
               {formatDecimal(metrics.sharpe)}
             </td>

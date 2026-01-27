@@ -60,6 +60,7 @@ class OptionPositionInput(BaseModel):
     expiry: str = Field(..., description="Expiration date (ISO format: YYYY-MM-DD)")
     style: Literal["european", "american"] = Field(default="european", description="Option style")
     quantity: float = Field(default=1.0, description="Number of contracts")
+    entry_price: Optional[float] = Field(default=None, ge=0, description="Premium paid/received at entry (optional)")
 
 
 class MarketSnapshotInput(BaseModel):
@@ -131,3 +132,23 @@ class TimeScenarioRequest(BaseModel):
     today: str = Field(..., description="Valuation date (ISO format: YYYY-MM-DD)")
     horizons: List[int] = Field(..., min_length=1, description="Time horizons (days) to evaluate")
 
+
+class PayoffRequest(BaseModel):
+    """Payoff curve analysis request."""
+    positions: List[OptionPositionInput]
+    market: MarketSnapshotInput
+    today: str = Field(..., description="Valuation date (ISO format: YYYY-MM-DD)")
+    expiry_date: str = Field(..., description="Option expiration date (ISO format: YYYY-MM-DD)")
+    spot_center: float = Field(..., gt=0, description="Center spot for grid generation")
+    pct_range: float = Field(default=0.5, gt=0, description="Range as percentage (e.g., 0.5 = ±50%)")
+    n_points: int = Field(default=101, gt=1, description="Number of spot grid points")
+    include_value_today: bool = Field(default=True, description="Include value at today")
+    include_greeks_today: bool = Field(default=False, description="Include Greeks at today")
+
+class StrategyTimelineRequest(BaseModel):
+    """Strategy timeline analysis request."""
+    positions: List[OptionPositionInput]
+    market: MarketSnapshotInput
+    symbol: str = Field(..., min_length=1, description="Underlying symbol (e.g., AAPL)")
+    start_date: str = Field(..., description="Start date (ISO format: YYYY-MM-DD)")
+    end_date: str = Field(..., description="End date (ISO format: YYYY-MM-DD)")

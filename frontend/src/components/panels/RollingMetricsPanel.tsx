@@ -52,6 +52,9 @@ export function RollingMetricsPanel({ data }: RollingMetricsPanelProps) {
         Diagnostic metrics computed over rolling time windows. These show how
         strategy characteristics evolved over time.
       </p>
+      <p style={styles.assumption}>
+        Interpretation assumes elliptical return distributions.
+      </p>
 
       {/* Toggle for valid period */}
       <div style={styles.controls}>
@@ -147,6 +150,13 @@ const styles: Record<string, React.CSSProperties> = {
   subtitle: {
     fontSize: '14px',
     color: '#666',
+    margin: '0 0 8px 0',
+  },
+
+  assumption: {
+    fontSize: '12px',
+    fontStyle: 'italic',
+    color: '#999',
     margin: '0 0 16px 0',
   },
 

@@ -213,6 +213,9 @@ export function BacktestForm({
               step="0.01"
               style={styles.input}
             />
+            <span style={styles.inputHint}>
+              Enters both discounting and opportunity cost
+            </span>
           </label>
         </div>
       </div>
@@ -302,6 +305,12 @@ const styles: Record<string, React.CSSProperties> = {
     borderRadius: '4px',
     fontSize: '14px',
     fontFamily: 'inherit',
+  },
+  inputHint: {
+    fontSize: '11px',
+    color: '#999',
+    marginTop: '4px',
+    fontStyle: 'italic',
   },
   row: {
     display: 'grid',

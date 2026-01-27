@@ -425,5 +425,120 @@ def test_end_to_end_spread(today):
     assert result[0]["delta"] < result[-1]["delta"]
 
 
-if __name__ == "__main__":
-    pytest.main([__file__, "-v"])
+# ============================================================
+# TEST: Payoff Curves
+# ============================================================
+
+def test_payoff_basic(service, sample_call, sample_market, today):
+    """Test basic payoff curve generation."""
+    result = service.run_payoff(
+        positions=[sample_call],
+        market=sample_market,
+        today=today,
+        expiry_date=date(2026, 6, 19),
+        spot_center=185,
+        pct_range=0.5,
+        n_points=11,
+        include_value_today=True,
+        include_greeks_today=False,
+    )
+    
+    assert "spots" in result
+    assert "payoff_at_expiry" in result
+    assert "value_today" in result
+    assert "metadata" in result
+    assert len(result["spots"]) == 11
+    assert len(result["payoff_at_expiry"]) == 11
+    assert len(result["value_today"]) == 11
+
+
+def test_payoff_with_greeks(service, sample_call, sample_market, today):
+    """Test payoff with Greeks."""
+    result = service.run_payoff(
+        positions=[sample_call],
+        market=sample_market,
+        today=today,
+        expiry_date=date(2026, 6, 19),
+        spot_center=185,
+        pct_range=0.5,
+        n_points=11,
+        include_value_today=True,
+        include_greeks_today=True,
+    )
+    
+    assert "greeks_today" in result
+    greeks = result["greeks_today"]
+    assert "delta" in greeks
+    assert "gamma" in greeks
+    assert "vega" in greeks
+    assert "theta" in greeks
+    assert "rho" in greeks
+    assert len(greeks["delta"]) == 11
+
+
+def test_payoff_spot_grid(service, sample_call, sample_market, today):
+    """Test spot grid generation."""
+    result = service.run_payoff(
+        positions=[sample_call],
+        market=sample_market,
+        today=today,
+        expiry_date=date(2026, 6, 19),
+        spot_center=100,
+        pct_range=0.1,  # ±10%
+        n_points=5,
+        include_value_today=False,
+    )
+    
+    spots = result["spots"]
+    assert len(spots) == 5
+    # Grid should be sorted and centered around 100
+    assert min(spots) >= 89.9  # 100 * (1 - 0.1) with tolerance for floating point
+    assert max(spots) <= 110.1  # 100 * (1 + 0.1) with tolerance for floating point
+
+
+def test_payoff_end_to_end(today):
+    """End-to-end: payoff curve for bull spread."""
+    service = OptionsService()
+    
+    positions = [
+        {
+            "symbol": "AAPL",
+            "type": "call",
+            "strike": 180.0,
+            "expiry": "2026-06-19",
+            "quantity": 1.0,
+        },
+        {
+            "symbol": "AAPL",
+            "type": "call",
+            "strike": 200.0,
+            "expiry": "2026-06-19",
+            "quantity": -1.0,
+        },
+    ]
+    
+    market = {
+        "spot": 185.0,
+        "rate": 0.03,
+        "dividend_yield": 0.005,
+        "volatility": 0.25,
+    }
+    
+    result = service.run_payoff(
+        positions=positions,
+        market=market,
+        today=today,
+        expiry_date=date(2026, 6, 19),
+        spot_center=190,
+        pct_range=0.3,
+        n_points=21,
+        include_value_today=True,
+        include_greeks_today=True,
+    )
+    
+    # Verify bull spread payoff has defined max
+    payoff = result["payoff_at_expiry"]
+    assert max(payoff) > 0
+    assert max(payoff) <= 20  # Max profit on bull call spread
+
+

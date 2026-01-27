@@ -15,6 +15,7 @@ from app.services.options.scenarios.monte_carlo import monte_carlo_scenario
 from app.services.options.scenarios.stress import crash_scenario
 from app.services.options.scenarios.surfaces import spot_vol_surface, spot_time_surface
 from app.services.options.scenarios.scenarios import spot_scenario, vol_scenario, time_scenario
+from app.services.options.scenarios.payoff import payoff_scenario, PayoffConfig, make_spot_grid
 
 
 class OptionsService:
@@ -353,4 +354,112 @@ class OptionsService:
             market=domain_market,
             today=today,
             days_forward=horizons,
+        )
+
+    def run_payoff(
+        self,
+        positions: List[Dict],
+        market: Dict,
+        today: date,
+        expiry_date: date,
+        spot_center: float,
+        pct_range: float = 0.5,
+        n_points: int = 101,
+        include_value_today: bool = True,
+        include_greeks_today: bool = False,
+    ) -> Dict:
+        """
+        Generate payoff curves and value surfaces for a portfolio.
+        
+        Parameters
+        ----------
+        positions : list of dict
+            JSON option positions
+        market : dict
+            JSON market snapshot
+        today : date
+            Valuation date
+        expiry_date : date
+            Option expiration date (payoff is evaluated here)
+        spot_center : float
+            Center spot for grid generation
+        pct_range : float
+            Range as percentage (e.g., 0.5 = ±50%)
+        n_points : int
+            Number of spot grid points
+        include_value_today : bool
+            Include value curve at today
+        include_greeks_today : bool
+            Include Greeks at today
+            
+        Returns
+        -------
+        dict
+            Payoff curves with metadata
+        """
+        domain_positions = self.parse_positions(positions)
+        domain_market = self.parse_market(market)
+        
+        # Generate spot grid
+        spots = make_spot_grid(
+            spot_center=spot_center,
+            pct_range=pct_range,
+            n=n_points,
+        )
+        
+        # Build PayoffConfig
+        config = PayoffConfig(
+            expiry_date=expiry_date,
+            spots=spots,
+            include_value_today=include_value_today,
+            include_greeks_today=include_greeks_today,
+        )
+        
+        return payoff_scenario(
+            positions=domain_positions,
+            market=domain_market,
+            today=today,
+            config=config,
+        )
+
+    def run_strategy_timeline(
+        self,
+        positions: List[Dict],
+        market: Dict,
+        symbol: str,
+        start_date: str,
+        end_date: str,
+    ) -> Dict:
+        """
+        Compute strategy timeline over historical period.
+        
+        Analyzes how portfolio would have performed historically with given positions.
+        Uses Black-Scholes for option pricing at each historical point.
+        
+        Parameters
+        ----------
+        positions : list of dict
+            Option and stock positions
+        market : dict
+            Market snapshot
+        symbol : str
+            Underlying symbol
+        start_date : str
+            Start date (YYYY-MM-DD)
+        end_date : str
+            End date (YYYY-MM-DD)
+            
+        Returns
+        -------
+        dict
+            Timeline with dates, prices, and portfolio values
+        """
+        from app.services.options.timeline import compute_strategy_timeline
+        
+        return compute_strategy_timeline(
+            positions=positions,
+            market=market,
+            symbol=symbol,
+            start_date=start_date,
+            end_date=end_date,
         )
