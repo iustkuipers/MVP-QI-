@@ -199,19 +199,45 @@ quant_insights/
 
 ## Usage
 
-### Using the Web Interface
+### Portfolio Lab - Backtesting Mode
 
 1. Open [Portfolio Lab](http://localhost:5173) in your browser
-2. **Portfolio Backtesting Mode**: Configure a portfolio and click "Run Backtest"
+2. **Portfolio Backtesting**: Configure a portfolio and click "Run Backtest"
    - View results, share with "Copy run link"
    - Compare mode: Run a second portfolio and view side-by-side metrics, charts, rolling analysis
-   - Share either run or comparison using the copy button (auto-restores on link open)
-3. **Options Sandbox** (New): Create and analyze multi-leg option strategies
+
+#### Portfolio Lab Dashboard
+![Portfolio Lab Dashboard](images/portfolio_lab_dashboard.png)
+*Main backtesting interface with portfolio configuration and NAV chart*
+
+#### Portfolio Lab Metrics
+![Portfolio Lab Metrics](images/portfolio_lab_metrics.png)
+*Comprehensive performance metrics including return, volatility, Sharpe ratio, and drawdown*
+
+#### Portfolio Lab Comparison Mode
+![Portfolio Lab Comparison](images/portfolio_lab_dashboard_compare.png)
+*Side-by-side comparison of two portfolio strategies with dual metrics*
+
+#### Portfolio Lab Metrics Comparison
+![Portfolio Lab Metrics Comparison](images/portfolio_lab_metrics_comparison.png)
+*Delta analysis comparing two strategies with semantic coloring for performance improvement/degradation*
+
+### Options Sandbox - Strategy Analysis
+
+**Options Sandbox** is a new tool for creating and analyzing multi-leg option strategies:
    - Select underlying symbol (e.g., AAPL)
    - Define positions: add calls, puts, and stock positions with individual entry dates and premiums
    - Set simulation period and market assumptions (volatility, risk-free rate, dividend yield)
-   - Click "Run Simulation" to see strategy timeline vs buy-and-hold
-   - Visualize portfolio value, underlying price, and baseline comparison across historical dates
+   - Click "Run Strategy Timeline" to see strategy evolution vs buy-and-hold baseline
+   - Visualize portfolio value, underlying price, and baseline comparison with entry/expiry markers
+
+#### Options Sandbox Dashboard
+![Options Sandbox Dashboard](images/option_sandbox_dashboard.png)
+*Multi-leg option strategy builder with timeline visualization and entry/expiry markers*
+
+#### Options Sandbox Metrics
+![Options Sandbox Metrics](images/option_sandbox_metrics.png)
+*Detailed instrument-level metrics including entry/exit values and P&L per position*
 
 ### Backend API
 
