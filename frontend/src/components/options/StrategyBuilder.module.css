@@ -94,10 +94,10 @@
 
 .typeSelect {
   padding: 10px 12px;
-  background: #1a1a1a;
-  border: 1px solid #333;
+  background: #ffffff;
+  border: 1px solid #d0d0d0;
   border-radius: 4px;
-  color: #fff;
+  color: #333;
   font-size: 13px;
   cursor: pointer;
   flex: 0 0 auto;
@@ -105,7 +105,7 @@
 
 .typeSelect:focus {
   outline: none;
-  border-color: #00d4ff;
+  border-color: #1976d2;
 }
 
 .addBtn {

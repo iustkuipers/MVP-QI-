@@ -238,7 +238,7 @@ export function PortfolioTimeSeries({
             {/* Grid */}
             <defs>
               <pattern id="gridTs" width="10" height="40" patternUnits="userSpaceOnUse">
-                <path d={`M 10 0 L 0 0 0 ${chartHeight}`} fill="none" stroke="#222" strokeWidth="0.3" />
+                <path d={`M 10 0 L 0 0 0 ${chartHeight}`} fill="none" stroke="#d0d0d0" strokeWidth="0.3" />
               </pattern>
             </defs>
             <rect width={chartWidth} height={chartHeight} fill="url(#gridTs)" />

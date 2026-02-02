@@ -1,6 +1,6 @@
 .container {
-  background: rgba(26, 26, 26, 0.8);
-  border: 1px solid rgba(0, 212, 255, 0.2);
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
   border-radius: 4px;
   padding: 20px;
   margin: 24px auto;
@@ -11,7 +11,7 @@
 .title {
   font-size: 18px;
   font-weight: 600;
-  color: #00d4ff;
+  color: #1976d2;
   text-transform: uppercase;
   letter-spacing: 1px;
   margin: 0 0 16px 0;
@@ -46,23 +46,23 @@
 
 .dateField input {
   padding: 8px 12px;
-  background: #1a1a1a;
-  border: 1px solid #333;
+  background: #ffffff;
+  border: 1px solid #d0d0d0;
   border-radius: 4px;
-  color: #fff;
+  color: #333;
   font-size: 13px;
 }
 
 .dateField input:focus {
   outline: none;
-  border-color: #00d4ff;
+  border-color: #1976d2;
 }
 
 .runButton {
   padding: 10px 20px;
-  background: #00d4ff;
+  background: #1976d2;
   border: none;
-  color: #000;
+  color: #fff;
   font-weight: 600;
   border-radius: 4px;
   cursor: pointer;
@@ -73,7 +73,7 @@
 }
 
 .runButton:hover:not(:disabled) {
-  background: #00e6ff;
+  background: #1565c0;
 }
 
 .runButton:disabled {
@@ -94,8 +94,8 @@
   flex-direction: column;
   gap: 8px;
   padding: 12px;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid #333;
+  background: #f5f5f5;
+  border: 1px solid #e0e0e0;
   border-radius: 4px;
   max-height: 350px;
   overflow-y: auto;
@@ -107,7 +107,7 @@
   gap: 8px;
   cursor: pointer;
   font-size: 12px;
-  color: #ccc;
+  color: #333;
   user-select: none;
 }
 
@@ -132,8 +132,8 @@
 
 /* Chart */
 .chartContainer {
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid #333;
+  background: #f5f5f5;
+  border: 1px solid #e0e0e0;
   border-radius: 4px;
   overflow-x: auto;
   padding: 12px;
@@ -141,16 +141,16 @@
 
 .chart {
   display: block;
-  background: rgba(0, 0, 0, 0.2);
+  background: #ffffff;
 }
 
 /* Empty/Error states */
 .emptyBox {
-  background: rgba(0, 212, 255, 0.05);
-  border: 1px solid rgba(0, 212, 255, 0.1);
+  background: rgba(25, 118, 210, 0.05);
+  border: 1px solid rgba(25, 118, 210, 0.1);
   border-radius: 4px;
   padding: 24px;
-  color: #00d4ff;
+  color: #1976d2;
   text-align: center;
   font-size: 13px;
 }
@@ -175,7 +175,7 @@
 
 .metricsTable h3 {
   font-size: 14px;
-  color: #00d4ff;
+  color: #1976d2;
   margin: 0 0 12px 0;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -188,14 +188,14 @@
 }
 
 .metricsTable thead {
-  background: rgba(0, 212, 255, 0.05);
-  border-bottom: 1px solid #333;
+  background: rgba(25, 118, 210, 0.05);
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .metricsTable th {
   padding: 8px 12px;
   text-align: left;
-  color: #00d4ff;
+  color: #1976d2;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -203,12 +203,12 @@
 
 .metricsTable td {
   padding: 8px 12px;
-  border-bottom: 1px solid #222;
-  color: #ccc;
+  border-bottom: 1px solid #e0e0e0;
+  color: #333;
 }
 
 .metricsTable tbody tr:hover {
-  background: rgba(0, 212, 255, 0.02);
+  background: rgba(25, 118, 210, 0.02);
 }
 
 .positive {
@@ -217,6 +217,34 @@
 
 .negative {
   color: #ff6464;
+}
+
+/* Legend below chart */
+.legend {
+  display: flex;
+  gap: 24px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  padding: 12px 0;
+  border-top: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legendColor {
+  width: 16px;
+  height: 2px;
+  border-radius: 2px;
+}
+
+.legendItem span {
+  font-size: 12px;
+  color: #666;
 }
 
 @media (max-width: 768px) {
@@ -234,5 +262,10 @@
 
   .togglePanel {
     display: none;
+  }
+
+  .legend {
+    flex-direction: column;
+    gap: 8px;
   }
 }

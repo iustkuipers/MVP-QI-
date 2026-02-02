@@ -61,6 +61,7 @@ class OptionPositionInput(BaseModel):
     style: Literal["european", "american"] = Field(default="european", description="Option style")
     quantity: float = Field(default=1.0, description="Number of contracts")
     entry_price: Optional[float] = Field(default=None, ge=0, description="Premium paid/received at entry (optional)")
+    entry_date: Optional[str] = Field(default=None, description="Entry date (ISO format: YYYY-MM-DD, optional)")
 
 
 class MarketSnapshotInput(BaseModel):

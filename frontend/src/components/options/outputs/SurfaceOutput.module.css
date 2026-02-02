@@ -3,8 +3,8 @@
  */
 
 .outputContainer {
-  background: #1a1a1a;
-  border: 1px solid #333;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
   border-radius: 8px;
   padding: 20px;
 }
@@ -17,14 +17,14 @@
   font-size: 16px;
   font-weight: 600;
   margin: 0 0 6px;
-  color: #00d4ff;
+  color: #1976d2;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .subtitle {
   font-size: 12px;
-  color: #999;
+  color: #666;
   margin: 0;
   font-style: italic;
 }
@@ -41,13 +41,13 @@
   align-items: center;
   gap: 8px;
   font-size: 13px;
-  color: #fff;
+  color: #333;
 }
 
 .controls select {
-  background: #0f0f0f;
-  border: 1px solid #333;
-  color: #fff;
+  background: #ffffff;
+  border: 1px solid #d0d0d0;
+  color: #333;
   padding: 6px 10px;
   border-radius: 4px;
   font-size: 12px;
@@ -56,7 +56,7 @@
 
 .controls select:focus {
   outline: none;
-  border-color: #00d4ff;
+  border-color: #1976d2;
 }
 
 /* Main heatmap container with axes */
@@ -66,8 +66,8 @@
   grid-template-rows: auto 1fr auto;
   gap: 8px;
   margin-bottom: 20px;
-  background: #0f0f0f;
-  border: 1px solid #2a2a2a;
+  background: #f5f5f5;
+  border: 1px solid #e0e0e0;
   border-radius: 6px;
   padding: 16px;
 }
@@ -82,7 +82,7 @@
   justify-content: center;
   font-size: 12px;
   font-weight: 600;
-  color: #00d4ff;
+  color: #1976d2;
   padding: 0 8px;
   white-space: nowrap;
 }
@@ -93,7 +93,7 @@
   text-align: center;
   font-size: 12px;
   font-weight: 600;
-  color: #00d4ff;
+  color: #1976d2;
   padding: 8px 0;
 }
 
@@ -129,7 +129,7 @@
   font-size: 11px;
   color: #888;
   padding-right: 8px;
-  border-right: 1px solid #333;
+  border-right: 1px solid #e0e0e0;
 }
 
 .gridWrapper {

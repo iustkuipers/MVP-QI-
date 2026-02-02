@@ -162,7 +162,7 @@ export function MarketContext({
             {/* Background grid */}
             <defs>
               <pattern id="grid" width="5" height="20" patternUnits="userSpaceOnUse">
-                <path d={`M 5 0 L 0 0 0 ${chartHeight}`} fill="none" stroke="#2a2a2a" strokeWidth="0.3" />
+                <path d={`M 5 0 L 0 0 0 ${chartHeight}`} fill="none" stroke="#d0d0d0" strokeWidth="0.3" />
               </pattern>
             </defs>
             <rect width={chartWidth} height={chartHeight} fill="url(#grid)" />
@@ -173,7 +173,7 @@ export function MarketContext({
                 .map((d, i) => `${i},${normalizePrice(d.price)}`)
                 .join(' ')}
               fill="none"
-              stroke="#00d4ff"
+              stroke="#1976d2"
               strokeWidth="1"
               vectorEffect="non-scaling-stroke"
             />
@@ -211,7 +211,7 @@ export function MarketContext({
           </svg>
           <div className={styles.chartLegend}>
             <span>
-              <span className={styles.dot} style={{ backgroundColor: '#00d4ff' }} />
+              <span className={styles.dot} style={{ backgroundColor: '#1976d2' }} />
               Price
             </span>
             <span>

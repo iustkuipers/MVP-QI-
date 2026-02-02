@@ -14,11 +14,30 @@ interface StrategyBuilderProps {
 export function StrategyBuilder({ positions, onPositionsChange }: StrategyBuilderProps) {
   const [positionType, setPositionType] = React.useState<'option' | 'stock'>('option');
 
+  // Ensure all option positions have entry_date initialized
+  React.useEffect(() => {
+    const updated = positions.map((pos) => {
+      if ((pos.type === 'call' || pos.type === 'put') && !pos.entry_date) {
+        return {
+          ...pos,
+          entry_date: new Date().toISOString().split('T')[0],
+        };
+      }
+      return pos;
+    });
+    
+    // Only update if something changed
+    if (JSON.stringify(updated) !== JSON.stringify(positions)) {
+      onPositionsChange(updated);
+    }
+  }, []);  // Run once on mount
+
   const handleAddPosition = () => {
     if (positionType === 'option') {
       const newPosition: OptionPosition = {
         symbol: 'AAPL',
         type: 'call',
+        entry_date: new Date().toISOString().split('T')[0],
         strike: 100,
         expiry: new Date().toISOString().split('T')[0],
         quantity: 1,

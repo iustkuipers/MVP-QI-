@@ -239,13 +239,6 @@ export function BacktestPage() {
     return (
       <div style={styles.container}>
         <h1 style={styles.title}>Portfolio Lab</h1>
-        <div style={styles.theoreticalFramework}>
-          <p style={{margin: '0 0 8px 0'}}><strong>Theoretical framework:</strong></p>
-          <ul style={{margin: '0', paddingLeft: '20px'}}>
-            <li>Mean–Variance analysis (elliptical returns assumption)</li>
-            <li>CAPM-relative evaluation</li>
-          </ul>
-        </div>
         <ErrorState error={singleError.message} />
         <div style={{ marginTop: '24px' }}>
           <BacktestForm
@@ -277,13 +270,6 @@ export function BacktestPage() {
     return (
       <div style={styles.container}>
         <h1 style={styles.title}>Portfolio Lab</h1>
-        <div style={styles.theoreticalFramework}>
-          <p style={{margin: '0 0 8px 0'}}><strong>Theoretical framework:</strong></p>
-          <ul style={{margin: '0', paddingLeft: '20px'}}>
-            <li>Mean–Variance analysis (elliptical returns assumption)</li>
-            <li>CAPM-relative evaluation</li>
-          </ul>
-        </div>
         <BacktestForm
           startDate={formA.startDate}
           onStartDateChange={date => setFormA({ ...formA, startDate: date })}
@@ -396,13 +382,6 @@ export function BacktestPage() {
     return (
       <div style={styles.container}>
         <h1 style={styles.title}>Portfolio Lab</h1>
-        <div style={styles.theoreticalFramework}>
-          <p style={{margin: '0 0 8px 0'}}><strong>Theoretical framework:</strong></p>
-          <ul style={{margin: '0', paddingLeft: '20px'}}>
-            <li>Mean–Variance analysis (elliptical returns assumption)</li>
-            <li>CAPM-relative evaluation</li>
-          </ul>
-        </div>
 
         {/* FORMS: Side by side */}
         <div style={styles.twoColumnLayout}>

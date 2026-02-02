@@ -6,7 +6,7 @@ A comprehensive portfolio backtesting platform with visual comparison and analys
 
 Quant Insights is a full-stack backtesting platform combining a robust Python backend with an interactive React frontend. Simulate portfolio performance, compare strategies side-by-side, and analyze rolling metrics with visual clarity. Share reproducible analyses via shareable links.
 
-**Current Version: v1.2** - Options Sandbox & Strategy Timeline Analysis
+**Current Version: v1.3** - Options Strategy Timeline with Entry/Expiry Markers
 
 ## Features
 
@@ -23,31 +23,41 @@ Quant Insights is a full-stack backtesting platform combining a robust Python ba
   - Rolling metrics (4-window analysis)
   - Excess Return, Tracking Error & Information Ratio (vs benchmark)
 - **Benchmark Comparison**: Support any ticker as benchmark (same ticker as position allowed)
-- **Options Pricing Engine** (v1.2 New!):
+- **Options Pricing Engine** (v1.2):
   - Black-Scholes European option pricing
   - Real-time option valuation with historical volatility
   - Support for both call and put options
   - Individual entry date tracking for each position
-- **Strategy Timeline Analysis** (v1.2 New!):
+- **Strategy Timeline Analysis** (v1.3 Enhanced!):
   - Compute portfolio value across historical date ranges
   - Compare strategy performance vs buy-and-hold baseline
   - Accurate option premium accounting
   - Multi-leg strategy support (calls, puts, stock positions)
-- **JSON Serialization**: Frontend-ready data formats for visualization
+  - **NEW**: Per-position entry date tracking (portfolio flat before entry)
+  - **NEW**: Multiple entry/expiry date markers with position numbers
+  - **NEW**: Automatic spot price interpolation for non-trading dates
 
-### Frontend (v1.2 New!)
-- **Options Sandbox** (New Tool):
+### Frontend (v1.3 Enhanced!)
+- **Options Sandbox**:
   - Define multi-leg option strategies (calls, puts, stock positions)
   - Specify individual entry dates and premiums paid/received
   - Single symbol picker for unified analysis
   - Simulation period selection (date range)
   - Market assumptions (volatility, risk-free rate, dividend yield)
-  - Real-time strategy timeline visualization with Recharts
-- **Strategy Timeline Comparison**:
-  - 3-line chart visualization:
-    - Underlying asset price (historical close)
-    - Portfolio value (options + stock combined)
-    - Buy-and-hold baseline (using deployed capital)
+- **Strategy Timeline Visualization** (v1.3 Enhanced!):
+  - **3-line chart**:
+    - Gray underlying asset price (historical close)
+    - Green portfolio value (options + stock combined)
+    - Orange buy-and-hold baseline (using deployed capital)
+  - **Entry/Expiry Markers** (NEW v1.3):
+    - Blue dashed vertical lines at each position's entry date (labeled with position #)
+    - Red dashed vertical lines at each position's expiry date (labeled with position #)
+    - Portfolio remains flat at deployed capital before entry dates
+    - Option values zero out at/after expiry dates
+  - **Interactive Tooltips** (NEW v1.3):
+    - Hover over chart to see exact date and all three line values
+    - Shows underlying price, strategy value, and buy-and-hold comparison
+  - Legend below chart with clear line identification
   - Shows exact values at start/end dates
   - Delta calculation for strategy vs baseline performance
 - **Portfolio Comparison Mode** (v1.1):
@@ -63,7 +73,10 @@ Quant Insights is a full-stack backtesting platform combining a robust Python ba
   - Encode & share reproducible backtests
   - Auto-restore and auto-run on link open
   - URL-safe compression (LZ + base64 fallback)
-- **Responsive UI**: Grid layouts, loading states, error handling, light mode styling
+- **Styling** (v1.3):
+  - Clean white/blue color scheme
+  - Light gray grid lines for readability
+  - Professional typography and spacing
 
 ## Getting Started
 

@@ -20,9 +20,6 @@ export interface MarketSnapshot {
   rate: number;
   volatility: number;
   dividend_yield?: number;
-  utility_type?: 'risk-neutral' | 'crra' | 'cara';
-  crra_gamma?: number;
-  cara_a?: number;
 }
 
 export interface MonteCarloResponse {
@@ -194,7 +191,21 @@ export const optionsAPI = {
     start_date: string;
     end_date: string;
   }): Promise<any> {
-    const response = await apiClient.post('/api/v1/options/strategy-timeline', request);
+    // Ensure all option positions have entry_date before sending
+    const positionsWithDates = request.positions.map((pos) => {
+      if ((pos.type === 'call' || pos.type === 'put') && !pos.entry_date) {
+        return {
+          ...pos,
+          entry_date: new Date().toISOString().split('T')[0],
+        };
+      }
+      return pos;
+    });
+
+    const response = await apiClient.post('/api/v1/options/strategy-timeline', {
+      ...request,
+      positions: positionsWithDates,
+    });
     return response;
   },
 };
