@@ -504,10 +504,5 @@ When contributing:
 3. Follow existing code style and structure
 4. Update this README with new features
 
-## License
-
-[Add appropriate license]
-
-## Support
 
 For issues or questions, please open an issue in the repository.
